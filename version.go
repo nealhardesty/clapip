@@ -2,4 +2,4 @@ package main
 
 // Version is the current semantic version of clapip. It is the single source
 // of truth for the release tooling in the Makefile.
-const Version = "v0.1.2"
+const Version = "v0.1.3"
