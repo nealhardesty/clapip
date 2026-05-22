@@ -21,6 +21,21 @@ func TestParseDefaults(t *testing.T) {
 	if cfg.APIKey != "" {
 		t.Errorf("APIKey = %q, want empty", cfg.APIKey)
 	}
+	if cfg.Host != DefaultHost {
+		t.Errorf("Host = %q, want %q", cfg.Host, DefaultHost)
+	}
+}
+
+func TestParseBindAll(t *testing.T) {
+	for _, args := range [][]string{{"--bind-all"}, {"-a"}} {
+		cfg, err := Parse(args, func(string) string { return "" })
+		if err != nil {
+			t.Fatalf("%v: unexpected error: %v", args, err)
+		}
+		if cfg.Host != AllInterfacesHost {
+			t.Errorf("%v: Host = %q, want %q", args, cfg.Host, AllInterfacesHost)
+		}
+	}
 }
 
 func TestParseFlags(t *testing.T) {

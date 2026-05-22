@@ -20,6 +20,7 @@ Build `clapip`, a high-performance, lightweight Go proxy that exposes an OpenAI-
 Configuration should be driven by command-line flags, with environment variable fallbacks where appropriate.
 
 * **`-p, --port`**: The port number to listen on. (Default: `8999`).
+* **`-a, --bind-all`**: Bind to all network interfaces (`0.0.0.0`). By default the server binds to `127.0.0.1` (localhost) only, reachable solely from the local machine. (Default: off).
 * **`-m, --model`**: The default model to use if one isn't provided by the client, or to force a specific model. (Default: `sonnet`).
 * **`-c, --claude-path`**: Explicit path to the Claude CLI binary. (Default: `claude`, relying on the system `$PATH`).
 * **`-k, --api-key`**: Bearer token required by clients to use the proxy.

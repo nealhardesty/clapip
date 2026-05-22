@@ -44,7 +44,7 @@ func (s *Server) Handler() http.Handler {
 // a graceful shutdown.
 func (s *Server) Run() error {
 	srv := &http.Server{
-		Addr:              net.JoinHostPort("", strconv.Itoa(s.cfg.Port)),
+		Addr:              net.JoinHostPort(s.cfg.Host, strconv.Itoa(s.cfg.Port)),
 		Handler:           s.Handler(),
 		ReadHeaderTimeout: 10 * time.Second,
 	}

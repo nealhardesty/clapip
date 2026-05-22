@@ -42,16 +42,37 @@ clapip [flags]
 | Flag | Alias | Default  | Description                                   |
 |------|-------|----------|-----------------------------------------------|
 | `--port`        | `-p` | `8999`   | Port to listen on                  |
+| `--bind-all`    | `-a` | _(off)_  | Bind to all network interfaces (default: localhost only) |
 | `--model`       | `-m` | `sonnet` | Default model when a request omits one        |
 | `--claude-path` | `-c` | `claude` | Path to the `claude` CLI binary               |
 | `--api-key`     | `-k` | _(none)_ | Bearer token required from clients             |
 | `--version`     | `-v` |          | Print version and exit                         |
+
+By default clapip listens on `127.0.0.1` only, so it is reachable solely from
+the local machine. Pass `-a`/`--bind-all` to bind to all interfaces (`0.0.0.0`)
+when the proxy needs to be reachable from other hosts.
 
 **API key precedence:** `-k` flag → `PROXY_API_KEY` environment variable → no
 key required (open proxy).
 
 On startup `clapip` runs `claude --version`; if the CLI is missing or fails it
 logs a fatal error and exits.
+
+### Running at login (macOS)
+
+On macOS, `clapip` can be installed as a per-user `launchd` agent so it starts
+automatically at login and is restarted if it exits:
+
+```sh
+./scripts/install-launchd.sh   # install and start the agent
+./scripts/remove-launchd.sh    # stop and uninstall the agent
+```
+
+The installer resolves an absolute path to the `clapip` binary, captures the
+current `$PATH` (so the agent can locate the `claude` CLI), and writes
+`~/Library/LaunchAgents/com.nealhardesty.clapip.plist`. Logs are written to
+`~/Library/Logs/clapip.log`. Re-running the installer reinstalls cleanly. The
+agent runs `clapip` with default flags (port `8999`, localhost only).
 
 ## Endpoints
 

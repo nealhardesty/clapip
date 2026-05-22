@@ -41,8 +41,12 @@ func main() {
 	cancel()
 
 	srv := server.New(cfg, runner, Version)
-	log.Printf("clapip %s listening on :%d (model=%s, claude=%s, auth=%t)",
-		Version, cfg.Port, cfg.Model, cfg.ClaudePath, cfg.APIKey != "")
+	host := cfg.Host
+	if host == config.AllInterfacesHost {
+		host = "0.0.0.0"
+	}
+	log.Printf("clapip %s listening on %s:%d (model=%s, claude=%s, auth=%t)",
+		Version, host, cfg.Port, cfg.Model, cfg.ClaudePath, cfg.APIKey != "")
 	if err := srv.Run(); err != nil {
 		log.Fatalf("clapip: %v", err)
 	}

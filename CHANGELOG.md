@@ -2,6 +2,24 @@
 
 All notable changes to clapip are documented in this file.
 
+## Unreleased
+
+### Changed
+- The server now binds to `127.0.0.1` (localhost) only by default instead of
+  all interfaces, limiting access to the local machine.
+
+### Added
+- `-a`/`--bind-all` flag to bind to all network interfaces (`0.0.0.0`) when
+  the proxy needs to be reachable from other hosts.
+- `scripts/remove-launchd.sh` to stop and uninstall the macOS `launchd` agent.
+
+### Fixed
+- `scripts/install-launchd.sh` now uses an absolute path to the `clapip`
+  binary, sets the agent's `PATH` so it can locate the `claude` CLI, creates
+  `~/Library/LaunchAgents` if missing, writes logs to `~/Library/Logs`,
+  enables `KeepAlive`, and is idempotent on re-runs. Previously the agent
+  failed to launch because `clapip` was not on `launchd`'s minimal `PATH`.
+
 ## v0.1.0
 
 Initial release.
